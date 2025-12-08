@@ -38,7 +38,7 @@ body {
     /* KEY FIX FOR LAPTOP: Shows full video, no zoom */
     object-fit: contain !important; 
     width: 100% !important; height: 100% !important;
-    transform: scaleX(-1); /* Mirrors the webcam so aiming is natural */
+    
 }
 
 /* OVERLAY FRAME */
