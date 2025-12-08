@@ -1,0 +1,172 @@
+body {
+    margin: 0; padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #202020;
+    height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.phone-wrapper {
+    position: relative;
+    width: 100%; height: 100%;
+    max-width: 450px; max-height: 850px;
+    background-color: #0B0F19;
+    overflow: hidden;
+}
+
+/* VIEWS */
+.view {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    padding-bottom: 90px; box-sizing: border-box;
+    background: #0B0F19;
+    overflow-y: auto; /* Allows scrolling for contact list */
+    opacity: 0; pointer-events: none; z-index: 0;
+    transition: opacity 0.3s ease;
+}
+.view.active { opacity: 1; pointer-events: all; z-index: 5; }
+.view.hidden { display: none; } /* Hard hide for camera performance */
+
+/* --- CAMERA LAYOUT --- */
+#reader {
+    width: 100%; height: 100%;
+    background: black;
+    position: absolute; top: 0; left: 0;
+    z-index: 1;
+}
+#reader video {
+    /* KEY FIX FOR LAPTOP: Shows full video, no zoom */
+    object-fit: contain !important; 
+    width: 100% !important; height: 100% !important;
+    transform: scaleX(-1); /* Mirrors the webcam so aiming is natural */
+}
+
+/* OVERLAY FRAME */
+.scanner-frame {
+    border: none !important; 
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* 1. THE WHITE BRACKETS */
+.corner { 
+    position: absolute; 
+    width: 30px; height: 30px; 
+    border: 4px solid white; /* <--- CHANGED TO WHITE */
+    box-shadow: 0 0 5px rgba(0,0,0,0.5); /* Added slight shadow so it shows on white backgrounds */
+}
+
+/* Positioning the corners */
+.top-left { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.top-right { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.bottom-left { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.bottom-right { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+
+/* 2. THE TEXT */
+.scan-text {
+    position: absolute; bottom: -40px; width: 100%;
+    text-align: center; color: white; letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* 3. THE ANIMATION (Laser) */
+.scanning-line {
+    width: 100%; height: 2px; 
+    background: #00E5FF; /* Keep this Blue for contrast, or change to 'red' */
+    box-shadow: 0 0 10px #00E5FF; 
+    position: absolute;
+    animation: scanMove 2s infinite ease-in-out;
+}
+
+@keyframes scanMove { 
+    0% { top: 0; opacity: 0; } 
+    50% { opacity: 1; } 
+    100% { top: 100%; opacity: 0; } 
+}
+
+/* --- HOME & PROFILE STYLES --- */
+.header h1, .profile-header h1 { margin: 20px 0 5px 20px; color: white; font-size: 28px; }
+.subtitle { margin: 0 0 20px 20px; color: #888; font-size: 14px; }
+.scroll-content { padding-bottom: 100px; }
+.card-list { padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
+
+/* Contact Cards */
+.contact-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px; padding: 15px;
+    display: flex; align-items: center; gap: 15px;
+    transition: 0.2s;
+}
+.contact-card:active { background: rgba(0, 229, 255, 0.1); border-color: #00E5FF; }
+.card-avatar {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: linear-gradient(135deg, #4B66EA, #00E5FF);
+    display: flex; justify-content: center; align-items: center;
+    font-weight: bold; color: white; font-size: 18px;
+}
+.card-info h3 { margin: 0; color: white; font-size: 16px; }
+.card-info p { margin: 4px 0 0 0; color: #888; font-size: 12px; }
+
+/* Profile Card */
+.profile-card {
+    margin: 20px;
+    background: linear-gradient(180deg, #1A1F2E 0%, #0B0F19 100%);
+    border: 1px solid #333; border-radius: 24px;
+    padding: 30px 20px; text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.avatar-circle {
+    width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px;
+    background: #00E5FF; color: black; font-size: 24px; font-weight: bold;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+.highlight-text { color: #00E5FF; font-weight: 500; letter-spacing: 1px; }
+.divider { height: 1px; background: #333; margin: 20px 0; }
+.info-row {
+    display: flex; align-items: center; gap: 15px;
+    background: rgba(255,255,255,0.03);
+    padding: 12px; margin-bottom: 10px; border-radius: 12px;
+    text-align: left; color: #ddd; font-size: 14px;
+}
+.my-qr-code { margin-top: 30px; }
+.my-qr-code p { color: #666; font-size: 10px; letter-spacing: 2px; font-weight: bold; }
+#qrcode-display {
+    width: 150px; height: 150px; margin: 10px auto;
+    background: white; padding: 10px; border-radius: 10px;
+}
+
+/* --- BOTTOM NOTIFICATION --- */
+.notification {
+    position: absolute; bottom: 120px; left: 20px; right: 20px;
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid #333; border-radius: 16px; padding: 15px;
+    z-index: 200; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    display: flex; gap: 12px; align-items: center;
+}
+.notification.hidden { display: none; }
+.notif-content { display: flex; align-items: center; gap: 12px; width: 100%; }
+.text-group { flex-grow: 1; overflow: hidden; }
+.label { margin: 0; color: #888; font-size: 10px; font-weight: bold; }
+.link { margin: 2px 0 0 0; color: #00E5FF; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+button { border: none; cursor: pointer; border-radius: 8px; font-weight: bold; }
+#btn-open { background: #00E5FF; color: black; padding: 8px 16px; font-size: 12px; }
+#btn-close { background: transparent; border: 1px solid #555; color: #888; width: 30px; height: 30px; border-radius: 50%; }
+
+/* --- NAV BAR --- */
+.nav-bar {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 85px;
+    background: rgba(11, 15, 25, 0.9); border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-around; align-items: center; z-index: 100;
+}
+.nav-item { color: #666; font-size: 11px; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.nav-item.active { color: #00E5FF; }
+.scan-button {
+    width: 64px; height: 64px; border-radius: 50%; margin-bottom: 40px;
+    background: linear-gradient(135deg, #00E5FF, #4B66EA);
+    display: flex; justify-content: center; align-items: center; cursor: pointer;
+    border: 4px solid #0B0F19; box-shadow: 0 8px 20px rgba(0,229,255,0.4);
+}
+.scan-label { color: white; font-size: 11px; font-weight: 600; }

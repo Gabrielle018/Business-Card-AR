@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vantage AR Debug</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="debug-console" style="position:fixed; top:10px; left:10px; right:10px; background:rgba(255,0,0,0.8); color:white; padding:10px; z-index:9999; font-size:12px; pointer-events:none; border-radius:8px; display:none;">
+        Initializing...
+    </div>
+
+    <div class="phone-wrapper">
+
+        <div id="scanner-view" class="view hidden">
+            <div id="reader"></div>
+
+            <div class="scanner-frame">
+                <div class="corner top-left"></div>
+                <div class="corner top-right"></div>
+                <div class="corner bottom-left"></div>
+                <div class="corner bottom-right"></div>
+                <p class="scan-text">ALIGN QR CODE</p>
+                <div class="scanning-line"></div>
+            </div>
+
+            <div id="scan-notification" class="notification hidden">
+                <div class="notif-content">
+                    <span class="icon">🔗</span>
+                    <div class="text-group">
+                        <p class="label">QR Code Detected</p>
+                        <p id="scanned-link" class="link">...</p>
+                    </div>
+                    <button id="btn-open">OPEN</button>
+                    <button id="btn-close">✖</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="home-view" class="view active">
+            <div class="scroll-content">
+                <div class="header">
+                    <h1>My Network</h1>
+                    <p class="subtitle">Recent Connections</p>
+                </div>
+                <div id="contacts-list" class="card-list"></div>
+            </div>
+        </div>
+
+        <div id="profile-view" class="view hidden">
+            <div class="scroll-content">
+                <div class="profile-header">
+                    <h1>My Profile</h1>
+                </div>
+                
+                <div class="profile-card">
+                    <div class="avatar-container">
+                        <div class="avatar-circle">ME</div> 
+                    </div>
+                    <h2 id="p-name">Loading...</h2>
+                    <p id="p-role" class="highlight-text">Loading...</p>
+                    
+                    <div class="divider"></div>
+
+                    <div class="info-row">
+                        <span class="icon">📧</span>
+                        <span id="p-email">...</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="icon">📱</span>
+                        <span id="p-phone">...</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="icon">🏫</span>
+                        <span id="p-school">...</span>
+                    </div>
+
+                    <div class="my-qr-code">
+                        <p>SHARE MY CARD</p>
+                        <div id="qrcode-display"></div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <div class="nav-item active" id="btn-home"><span>Home</span></div>
+            <div class="scan-button-container" id="btn-scan">
+                <div class="scan-button"><div class="scan-label">SCAN</div></div>
+            </div>
+            <div class="nav-item" id="btn-profile"><span>Profile</span></div>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="script.js"></script>
+</body>
+</html>
