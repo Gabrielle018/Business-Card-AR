@@ -79,10 +79,26 @@ body {
     animation: scanMove 2s infinite ease-in-out;
 }
 
-@keyframes scanMove { 
-    0% { top: 0; opacity: 0; } 
-    50% { opacity: 1; } 
-    100% { top: 100%; opacity: 0; } 
+.your-scanner-box-class { 
+    position: relative; /* <--- THIS IS REQUIRED */
+    overflow: hidden;   /* Keeps the laser inside the box */
+}
+
+@keyframes scanMove {
+    0% {
+        top: 0;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1; /* Fade in quickly */
+    }
+    90% {
+        opacity: 1; /* Stay visible */
+    }
+    100% {
+        top: 100%; /* Move to bottom */
+        opacity: 0; /* Fade out */
+    }
 }
 
 /* --- HOME & PROFILE STYLES --- */
