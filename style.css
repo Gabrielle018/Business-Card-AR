@@ -119,7 +119,7 @@ body {
 }
 .avatar-circle {
     width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px;
-    background: #00E5FF; color: black; font-size: 24px; font-weight: bold;
+    background: #00E5FF; color: white; font-size: 24px; font-weight: bold;
     display: flex; justify-content: center; align-items: center;
     box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
 }
