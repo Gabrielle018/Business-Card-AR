@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const myContacts = [
-        { name: "Prof. Albus", role: "Thesis Advisor", date: "Today" },
-        { name: "Jane Doe", role: "UI/UX Designer", date: "Yesterday" },
-        { name: "Dev Team", role: "Hackathon Group", date: "2 days ago" }
+        { name: "Prof. Nierro", role: "Thesis Advisor", date: "Today" },
+        { name: "Annie Mal", role: "UI/UX Designer", date: "Yesterday" },
+        { name: "Cathy V. Latco", role: "Hackathon Group", date: "2 days ago" }
     ];
 
     // --- DEBUG ---
