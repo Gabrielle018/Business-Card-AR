@@ -41,63 +41,78 @@ body {
     
 }
 
-/* OVERLAY FRAME */
-.scanner-frame {
-    border: none !important; 
-    outline: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
+/* --- 1. PARENT CONTAINER (CRITICAL) --- */
+/* This holds everything together. Without 'relative', the laser flies away. */
+.scanner-box {
+    position: relative;
+    width: 250px; /* Adjust size as needed */
+    height: 250px;
+    overflow: hidden; /* Keeps the laser inside the box */
+    /* Optional: centering for the demo */
+    margin: 0 auto; 
 }
 
-/* 1. THE WHITE BRACKETS */
+/* --- 2. YOUR CORNER CODE + POSITIONING --- */
 .corner { 
     position: absolute; 
-    width: 30px; height: 30px; 
-    border: 4px solid white; /* <--- CHANGED TO WHITE */
-    box-shadow: 0 0 5px rgba(0,0,0,0.5); /* Added slight shadow so it shows on white backgrounds */
+    width: 30px; 
+    height: 30px; 
+    border: 4px solid white; /* Your white border */
+    box-shadow: 0 0 5px rgba(0,0,0,0.5); 
 }
 
-/* Positioning the corners */
-.top-left { top: 0; left: 0; border-right: 0; border-bottom: 0; }
-.top-right { top: 0; right: 0; border-left: 0; border-bottom: 0; }
-.bottom-left { bottom: 0; left: 0; border-right: 0; border-top: 0; }
-.bottom-right { bottom: 0; right: 0; border-left: 0; border-top: 0; }
-
-/* 2. THE TEXT */
-.scan-text {
-    position: absolute; bottom: -40px; width: 100%;
-    text-align: center; color: white; letter-spacing: 2px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+/* These turn the squares into L-shaped brackets */
+.top-left {
+    top: 0; left: 0;
+    border-right: none; 
+    border-bottom: none;
 }
 
-/* 3. THE ANIMATION (Laser) */
+.top-right {
+    top: 0; right: 0;
+    border-left: none; 
+    border-bottom: none;
+}
+
+.bottom-left {
+    bottom: 0; left: 0;
+    border-right: none; 
+    border-top: none;
+}
+
+.bottom-right {
+    bottom: 0; right: 0;
+    border-left: none; 
+    border-top: none;
+}
+
+/* --- 3. THE LASER (Your code + Keyframes) --- */
 .scanning-line {
-    width: 100%; height: 2px; 
-    background: #00E5FF; /* Keep this Blue for contrast, or change to 'red' */
+    width: 100%; 
+    height: 2px; 
+    background: #00E5FF; 
     box-shadow: 0 0 10px #00E5FF; 
     position: absolute;
-    animation: scanMove 2s infinite ease-in-out;
+    /* This connects to the @keyframes below */
+    animation: scanMove 2s infinite ease-in-out; 
 }
 
-.your-scanner-box-class { 
-    position: relative; /* <--- THIS IS REQUIRED */
-    overflow: hidden;   /* Keeps the laser inside the box */
-}
-
+/* --- 4. THE MISSING ANIMATION --- */
+/* This tells the laser exactly where to move */
 @keyframes scanMove {
     0% {
         top: 0;
         opacity: 0;
     }
     10% {
-        opacity: 1; /* Fade in quickly */
+        opacity: 1;
     }
     90% {
-        opacity: 1; /* Stay visible */
+        opacity: 1;
     }
     100% {
-        top: 100%; /* Move to bottom */
-        opacity: 0; /* Fade out */
+        top: 100%;
+        opacity: 0;
     }
 }
 
