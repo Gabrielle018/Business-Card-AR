@@ -145,12 +145,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function onScanSuccess(decodedText) {
-        log("QR FOUND: " + decodedText);
-        html5QrCode.pause(); 
-        currentUrl = decodedText;
-        linkText.innerText = decodedText;
-        notifBar.classList.remove('hidden');
-    }
+    log("QR FOUND: " + decodedText);
+
+    // --- RESTRICT TO 8TH WALL ONLY ---
+    const is8thWall = (
+        decodedText.startsWith("https://") &&
+        (decodedText.includes("8thwall.com") || decodedText.includes("8thwall.app"))
+    );
+
+    if (!is8thWall) {
+    log("❌ Not an 8th Wall QR");
+
+    notifBar.classList.add("error");   // ADD THIS
+    linkText.innerText = "Invalid QR: Only 8th Wall links are allowed.";
+
+    notifBar.classList.remove('hidden');
+    html5QrCode.pause();
+    return;
+}
+
+
+    // --- IF VALID 8THWALL QR ---
+    notifBar.classList.remove("error");
+    html5QrCode.pause();
+    currentUrl = decodedText;
+    linkText.innerText = decodedText;
+    notifBar.classList.remove('hidden');
+}
+
 
     function onScanFailure(error) {
         // Just keeping the camera alive
