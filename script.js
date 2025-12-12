@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const myContacts = [
-        { name: "Lugada, Yuan Gabriel D.", role: "Developers", date: "Today" },
-        { name: "Abania, Jomuel C.", role: "Developers", date: "Today" },
-        { name: "Moneva, Gabrielle B.", role: "Developers", date: "Today" }
+        { name: "Lugada, Yuan Gabriel D.", role: "Developer", date: "Today" },
+        { name: "Abania, Jomuel C.", role: "Developer", date: "Today" },
+        { name: "Moneva, Gabrielle B.", role: "Developer", date: "Today" }
     ];
 
     // --- DEBUG ---
