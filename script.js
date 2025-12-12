@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const myContacts = [
-        { name: "Prof. Nierro", role: "Thesis Advisor", date: "Today" },
-        { name: "Ma. Cathy V. Latco", role: "UI/UX Designer", date: "Yesterday" },
-        { name: "Cathy V. Latco", role: "Hackathon Group", date: "2 days ago" }
+        { name: "Lugada, Yuan Gabriel D.", role: "Developers", date: "Today" },
+        { name: "Abania, Jomuel C.", role: "Developers", date: "Today" },
+        { name: "Moneva, Gabrielle B.", role: "Developers", date: "Today" }
     ];
 
     // --- DEBUG ---
