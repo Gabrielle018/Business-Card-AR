@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const myContacts = [
-        { name: "Lugada, Yuan Gabriel D.", role: "Developer", date: "Today" },
+        { name: "Lugada, Yuan Gabriel D.", role: "Developer", date: "Now" },
         { name: "Abania, Jomuel C.", role: "Developer", date: "Today" },
         { name: "Moneva, Gabrielle B.", role: "Developer", date: "Today" }
     ];
