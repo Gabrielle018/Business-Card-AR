@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let html5QrCode; 
     let currentUrl = "";
     let scanCount = 0;
+    let hasScanned = false;
+
 
     // --- DATA: EDIT YOUR INFO HERE ---
     const myProfileData = {
@@ -104,19 +106,19 @@ document.addEventListener("DOMContentLoaded", () => {
             `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" style="width:100%; height:100%;" />`;
     }
 
-    function addNewContact(name, role) {
-    // Prevent duplicates
-    const exists = myContacts.some(c => c.name === name);
-    if (exists) return;
-
+   function addNewContact(name, role) {
     myContacts.unshift({
         name: name,
         role: role,
         date: "Yesterday"
     });
 
-    loadHome(); // Refresh My Network UI
+    // Update UI only if Home is visible
+    if (homeView.classList.contains("active")) {
+        loadHome();
+    }
 }
+
 
 
     // --- CAMERA LOGIC (LAPTOP OPTIMIZED) ---
@@ -188,8 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-    // ✅ ADD NEW CONTACT
-    addNewContact("Liu, Bernie", "CEO");
 
 }
 
@@ -202,11 +202,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- BUTTON ACTIONS ---
     btnOpen.addEventListener('click', () => {
-        if (currentUrl.startsWith("http")) {
-            stopCamera();
-            window.location.href = currentUrl;
-        } else alert("Not a link: " + currentUrl);
-    });
+    if (!currentUrl.startsWith("http")) {
+        alert("Not a link: " + currentUrl);
+        return;
+    }
+
+    // ✅ ADD CONTACT ONLY AFTER USER CLICKS OPEN
+    addNewContact("Liu, Bernie", "CEO");
+
+    stopCamera();
+
+    // Open 8th Wall site
+    window.location.href = currentUrl;
+});
+
 
     btnClose.addEventListener('click', () => {
         notifBar.classList.add('hidden');
