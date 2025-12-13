@@ -108,19 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
             `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" style="width:100%; height:100%;" />`;
     }
 
-   function addNewContact(name, role) {
-    myContacts.unshift({
-        name: name,
-        role: role,
-        date: "Yesterday"
-    });
-
-    // Update UI only if Home is visible
-    if (homeView.classList.contains("active")) {
-        loadHome();
-    }
-}
-
 
 
     // --- CAMERA LOGIC (LAPTOP OPTIMIZED) ---
@@ -164,6 +151,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- TEMPORARY CONTACT ADD FUNCTION ---
+function addNewContact(name, role) {
+    // Prevent duplicates
+    const exists = myContacts.some(c => c.name === name && c.role === role);
+    if (!exists) {
+        myContacts.unshift({
+            name: name,
+            role: role,
+            date: "Yesterday"
+        });
+    }
+
+    // Update UI if Home view is active
+    if (homeView.classList.contains("active")) {
+        loadHome();
+    }
+}
 
 
     function onScanSuccess(decodedText) {
@@ -210,21 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
    // --- BUTTON ACTIONS ---
 btnOpen.addEventListener('click', () => {
     if (currentUrl.startsWith("http")) {
-        stopCamera();
-
-        // Temporarily add contact
+        // Add contact TEMPORARILY when user clicks Open
         addNewContact("Liu, Bernie", "CEO");
 
-        // Show Home view to make it visible
-        switchView('home');
-
-        // Open the link
-        window.open(currentUrl, "_blank");
-
-    } else {
-        alert("Not a link: " + currentUrl);
-    }
+        stopCamera();
+        window.location.href = currentUrl;
+    } else alert("Not a link: " + currentUrl);
 });
+
 
 
 
