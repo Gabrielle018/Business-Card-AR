@@ -164,22 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // --- TEMPORARY CONTACT ADD FUNCTION ---
-function addNewContact(name, role) {
-    // Prevent duplicates
-    const exists = myContacts.some(c => c.name === name && c.role === role);
-    if (!exists) {
-        myContacts.unshift({
-            name: name,
-            role: role,
-            date: "Yesterday"
-        });
-    }
 
-    // Update UI if Home view is active
-    if (homeView.classList.contains("active")) {
-        loadHome();
-    }
-}
 
     function onScanSuccess(decodedText) {
     log("QR FOUND: " + decodedText);
@@ -227,14 +212,20 @@ btnOpen.addEventListener('click', () => {
     if (currentUrl.startsWith("http")) {
         stopCamera();
 
-        // ✅ Add temporary contact only when user clicks OPEN
+        // Temporarily add contact
         addNewContact("Liu, Bernie", "CEO");
 
-        window.location.href = currentUrl;
+        // Show Home view to make it visible
+        switchView('home');
+
+        // Open the link
+        window.open(currentUrl, "_blank");
+
     } else {
         alert("Not a link: " + currentUrl);
     }
 });
+
 
 
 
