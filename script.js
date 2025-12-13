@@ -220,17 +220,13 @@ function addNewContact(name, role) {
         scanCount++;
         if(scanCount % 50 === 0) log("Scanning... " + scanCount);
     }
-
-   // --- BUTTON ACTIONS ---
-btnOpen.addEventListener('click', () => {
-    if (currentUrl.startsWith("http")) {
-        // Add contact TEMPORARILY when user clicks Open
-        addNewContact("Liu, Bernie", "CEO");
-
-        stopCamera();
-        window.location.href = currentUrl;
-    } else alert("Not a link: " + currentUrl);
-});
+ // --- BUTTON ACTIONS ---
+    btnOpen.addEventListener('click', () => {
+        if (currentUrl.startsWith("http")) {
+            stopCamera();
+            window.location.href = currentUrl;
+        } else alert("Not a link: " + currentUrl);
+    });
 
 
 
