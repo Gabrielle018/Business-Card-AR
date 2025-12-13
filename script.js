@@ -108,7 +108,23 @@ document.addEventListener("DOMContentLoaded", () => {
             `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" style="width:100%; height:100%;" />`;
     }
 
+  // --- TEMPORARY CONTACT ADD FUNCTION ---
+    function addNewContact(name, role) {
+        // Prevent duplicates
+        const exists = myContacts.some(c => c.name === name && c.role === role);
+        if (!exists) {
+            myContacts.unshift({
+                name: name,
+                role: role,
+                date: "Yesterday"
+            });
+        }
 
+        // Update UI if Home view is active
+        if (homeView.classList.contains("active")) {
+            loadHome();
+        }
+    }
 
     // --- CAMERA LOGIC (LAPTOP OPTIMIZED) ---
     function startCamera() {
@@ -150,24 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- TEMPORARY CONTACT ADD FUNCTION ---
-function addNewContact(name, role) {
-    // Prevent duplicates
-    const exists = myContacts.some(c => c.name === name && c.role === role);
-    if (!exists) {
-        myContacts.unshift({
-            name: name,
-            role: role,
-            date: "Yesterday"
-        });
-    }
-
-    // Update UI if Home view is active
-    if (homeView.classList.contains("active")) {
-        loadHome();
-    }
-}
-
+    
 
     function onScanSuccess(decodedText) {
     log("QR FOUND: " + decodedText);
