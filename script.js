@@ -210,8 +210,7 @@ function addNewContact(name, role) {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-    // ✅ ADD TEMPORARY CONTACT
-    addNewContact("Liu, Bernie", "CEO");
+   
 
 
 }
@@ -223,21 +222,20 @@ function addNewContact(name, role) {
         if(scanCount % 50 === 0) log("Scanning... " + scanCount);
     }
 
-    // --- BUTTON ACTIONS ---
-    btnOpen.addEventListener('click', () => {
-    if (!currentUrl.startsWith("http")) {
+   // --- BUTTON ACTIONS ---
+btnOpen.addEventListener('click', () => {
+    if (currentUrl.startsWith("http")) {
+        stopCamera();
+
+        // ✅ Add temporary contact only when user clicks OPEN
+        addNewContact("Liu, Bernie", "CEO");
+
+        window.location.href = currentUrl;
+    } else {
         alert("Not a link: " + currentUrl);
-        return;
     }
-
-    // ✅ ADD CONTACT ONLY AFTER USER CLICKS OPEN
-    addNewContact("Liu, Bernie", "CEO");
-
-    stopCamera();
-
-    // Open 8th Wall site
-    window.location.href = currentUrl;
 });
+
 
 
     btnClose.addEventListener('click', () => {
