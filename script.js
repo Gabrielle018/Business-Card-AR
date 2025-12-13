@@ -78,20 +78,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- DATA FUNCTIONS ---
     function loadHome() {
-        const list = document.getElementById('contacts-list');
-        list.innerHTML = ""; 
-        myContacts.forEach(c => {
-            const initials = c.name.slice(0, 2).toUpperCase();
-            const html = `
-                <div class="contact-card">
-                    <div class="card-avatar">${initials}</div>
-                    <div class="card-info"><h3>${c.name}</h3><p>${c.role} • ${c.date}</p></div>
-                </div>`;
-            list.innerHTML += html;
-        });
-    }
+    const list = document.getElementById('contacts-list');
+    list.innerHTML = ""; 
+
+    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
+
+    contacts.forEach(c => {
+        const initials = c.name.slice(0, 2).toUpperCase();
+        const html = `
+            <div class="contact-card">
+                <div class="card-avatar">${initials}</div>
+                <div class="card-info"><h3>${c.name}</h3><p>${c.role} • ${c.date}</p></div>
+            </div>`;
+        list.innerHTML += html;
+    });
+}
+
 
     
 
@@ -108,23 +111,30 @@ document.addEventListener("DOMContentLoaded", () => {
             `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" style="width:100%; height:100%;" />`;
     }
 
-  // --- TEMPORARY CONTACT ADD FUNCTION ---
-    function addNewContact(name, role) {
-        // Prevent duplicates
-        const exists = myContacts.some(c => c.name === name && c.role === role);
-        if (!exists) {
-            myContacts.unshift({
-                name: name,
-                role: role,
-                date: "Yesterday"
-            });
-        }
+  // --- STORAGE-BASED CONTACT ADD ---
+function addNewContact(name, role) {
+    // Get existing contacts from sessionStorage or fallback to myContacts
+    let contacts = JSON.parse(sessionStorage.getItem("myContacts")) || [...myContacts];
 
-        // Update UI if Home view is active
-        if (homeView.classList.contains("active")) {
-            loadHome();
-        }
+    // Prevent duplicates
+    const exists = contacts.some(c => c.name === name && c.role === role);
+    if (!exists) {
+        contacts.unshift({
+            name: name,
+            role: role,
+            date: "Yesterday"
+        });
     }
+
+    // Save back to storage
+    sessionStorage.setItem("myContacts", JSON.stringify(contacts));
+
+    // Update UI if Home view is active
+    if (homeView.classList.contains("active")) {
+        loadHome();
+    }
+}
+
 
     // --- CAMERA LOGIC (LAPTOP OPTIMIZED) ---
     function startCamera() {
@@ -197,7 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-   
+   // ✅ ADD NEW CONTACT automatically after scanning
+    addNewContact("Liu, Bernie", "CEO");
+
 
 
 }
