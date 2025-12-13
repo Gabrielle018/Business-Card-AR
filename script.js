@@ -30,11 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
         school: "San Beda University"
     };
 
-    const myContacts = [
-        { name: "Lugada, Yuan Gabriel D.", role: "Developer", date: "Now" },
-        { name: "Abania, Jomuel C.", role: "Developer", date: "Today" },
-        { name: "Moneva, Gabrielle B.", role: "Developer", date: "Today" }
-    ];
+    let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
+    { name: "Lugada, Yuan Gabriel D.", role: "Developer", date: "Now" },
+    { name: "Abania, Jomuel C.", role: "Developer", date: "Today" },
+    { name: "Moneva, Gabrielle B.", role: "Developer", date: "Today" }
+];
+
 
     // --- DEBUG ---
     function log(msg) {
@@ -112,22 +113,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
  function addNewContact(name, role) {
-    let contacts = JSON.parse(sessionStorage.getItem("myContacts")) || [...myContacts];
-
-    const exists = contacts.some(c => c.name === name && c.role === role);
+    const exists = myContacts.some(c => c.name === name && c.role === role);
     if (!exists) {
-        contacts.unshift({
+        myContacts.unshift({
             name: name,
             role: role,
             date: "Yesterday"
         });
+        sessionStorage.setItem("myContacts", JSON.stringify(myContacts));
     }
 
-    sessionStorage.setItem("myContacts", JSON.stringify(contacts));
-
-    // Force reload Home UI
+    // Always reload Home UI
     loadHome();
 }
+
 
 
 
