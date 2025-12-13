@@ -111,12 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
             `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" style="width:100%; height:100%;" />`;
     }
 
-  // --- STORAGE-BASED CONTACT ADD ---
-function addNewContact(name, role) {
-    // Get existing contacts from sessionStorage or fallback to myContacts
+ function addNewContact(name, role) {
     let contacts = JSON.parse(sessionStorage.getItem("myContacts")) || [...myContacts];
 
-    // Prevent duplicates
     const exists = contacts.some(c => c.name === name && c.role === role);
     if (!exists) {
         contacts.unshift({
@@ -126,14 +123,12 @@ function addNewContact(name, role) {
         });
     }
 
-    // Save back to storage
     sessionStorage.setItem("myContacts", JSON.stringify(contacts));
 
-    // Update UI if Home view is active
-    if (homeView.classList.contains("active")) {
-        loadHome();
-    }
+    // Force reload Home UI
+    loadHome();
 }
+
 
 
     // --- CAMERA LOGIC (LAPTOP OPTIMIZED) ---
