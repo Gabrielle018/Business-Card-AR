@@ -104,6 +104,21 @@ document.addEventListener("DOMContentLoaded", () => {
             `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" style="width:100%; height:100%;" />`;
     }
 
+    function addNewContact(name, role) {
+    // Prevent duplicates
+    const exists = myContacts.some(c => c.name === name);
+    if (exists) return;
+
+    myContacts.unshift({
+        name: name,
+        role: role,
+        date: "Yesterday"
+    });
+
+    loadHome(); // Refresh My Network UI
+}
+
+
     // --- CAMERA LOGIC (LAPTOP OPTIMIZED) ---
     function startCamera() {
         log("Init Camera...");
@@ -168,9 +183,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- IF VALID 8THWALL QR ---
     notifBar.classList.remove("error");
     html5QrCode.pause();
+
     currentUrl = decodedText;
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
+
+    // ✅ ADD NEW CONTACT
+    addNewContact("Liu, Bernie", "CEO");
+
 }
 
 
