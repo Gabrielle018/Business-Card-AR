@@ -93,23 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function addNewContact(name, role) {
-    // Prevent duplicates: check if the contact already exists
-    const exists = myContacts.some(c => c.name === name && c.role === role);
-    if (!exists) {
-        myContacts.unshift({
-            name: name,
-            role: role,
-            date: "Yesterday"
-        });
-    }
-
-    // Update the UI if Home view is active
-    if (homeView.classList.contains("active")) {
-        loadHome();
-    }
-}
-
+    
 
     function loadProfile() {
         document.getElementById('p-name').innerText = myProfileData.name;
@@ -178,6 +162,24 @@ document.addEventListener("DOMContentLoaded", () => {
             html5QrCode.stop().then(() => html5QrCode.clear());
         }
     }
+
+    // --- TEMPORARY CONTACT ADD FUNCTION ---
+function addNewContact(name, role) {
+    // Prevent duplicates
+    const exists = myContacts.some(c => c.name === name && c.role === role);
+    if (!exists) {
+        myContacts.unshift({
+            name: name,
+            role: role,
+            date: "Yesterday"
+        });
+    }
+
+    // Update UI if Home view is active
+    if (homeView.classList.contains("active")) {
+        loadHome();
+    }
+}
 
     function onScanSuccess(decodedText) {
     log("QR FOUND: " + decodedText);
