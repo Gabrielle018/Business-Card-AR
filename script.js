@@ -93,6 +93,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function addNewContact(name, role) {
+    // Prevent duplicates: check if the contact already exists
+    const exists = myContacts.some(c => c.name === name && c.role === role);
+    if (!exists) {
+        myContacts.unshift({
+            name: name,
+            role: role,
+            date: "Yesterday"
+        });
+    }
+
+    // Update the UI if Home view is active
+    if (homeView.classList.contains("active")) {
+        loadHome();
+    }
+}
+
+
     function loadProfile() {
         document.getElementById('p-name').innerText = myProfileData.name;
         document.getElementById('p-role').innerText = myProfileData.role;
@@ -189,6 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
     currentUrl = decodedText;
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
+
+    // ✅ ADD TEMPORARY CONTACT
+    addNewContact("Liu, Bernie", "CEO");
 
 
 }
