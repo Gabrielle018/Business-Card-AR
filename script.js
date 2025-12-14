@@ -150,6 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
  function addNewContact(name, role, link) {
+
+    // Load fresh contacts from sessionStorage
+    let contacts = JSON.parse(sessionStorage.getItem("myContacts")) || [];
+
     const exists = myContacts.some(c => c.name === name && c.role === role);
     if (!exists) {
         myContacts.unshift({
@@ -161,6 +165,8 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.setItem("myContacts", JSON.stringify(myContacts));
     }
 
+    // Update myContacts variable for in-memory use
+    myContacts = contacts;
     // Always reload Home UI
     loadHome();
 }
@@ -240,7 +246,9 @@ document.addEventListener("DOMContentLoaded", () => {
     notifBar.classList.remove('hidden');
 
    // ✅ ADD NEW CONTACT automatically after scanning
-    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
+   addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
+    addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-2/");
+
 
 
 
@@ -256,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnOpen.addEventListener('click', () => {
         if (currentUrl.startsWith("http")) {
 
-             addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-2/");
+           
 
             stopCamera();
             window.location.href = currentUrl;
