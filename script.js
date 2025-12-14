@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if(scanCount % 50 === 0) log("Scanning... " + scanCount);
     }
  // --- BUTTON ACTIONS ---
-    btnOpen.addEventListener('click', () => {
+   btnOpen.addEventListener('click', () => {
     if (!currentUrl) {
         alert("No QR scanned yet.");
         return;
@@ -251,14 +251,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     stopCamera();
 
-    // If the URL looks like http/https, open directly
+    // If the scanned QR is a known 8th Wall card, redirect to the final URL
+    if (currentUrl.includes("ar-businesscard-2")) {
+        window.location.href = "https://augmentedreality8.8thwall.app/ar-businesscard-2/";
+        return;
+    }
+
+    // Otherwise, try normal redirect
     if (currentUrl.startsWith("http://") || currentUrl.startsWith("https://")) {
         window.location.href = currentUrl;
     } else {
-        // Otherwise try opening it anyway (some deep links like 8thwall://)
+        // fallback: open in new tab
         window.open(currentUrl, "_blank");
     }
 });
+
 
 
 
