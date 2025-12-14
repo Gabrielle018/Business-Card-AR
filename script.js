@@ -205,15 +205,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function isValidQrLink(text) {
-    try {
-        const cleaned = text.trim(); // ✅ VERY IMPORTANT
-        const url = new URL(cleaned);
-        return url.protocol === "https:" || url.protocol === "http:";
-    } catch (e) {
-        console.error("Invalid URL:", text);
-        return false;
+   function isValidQr(text) {
+    const cleaned = text.trim();
+
+    // URL
+    if (cleaned.startsWith("http://") || cleaned.startsWith("https://")) {
+        return true;
     }
+
+    // vCard
+    if (cleaned.startsWith("BEGIN:VCARD")) {
+        return true;
+    }
+
+    return false;
+
 }
 
 
@@ -223,13 +229,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const cleanedText = decodedText.trim(); // ✅ ADD THIS
 
-    if (!isValidQrLink(cleanedText)) {
-        notifBar.classList.add("error");
-        linkText.innerText = "Invalid QR code.";
-        notifBar.classList.remove("hidden");
-        html5QrCode.pause();
-        return;
+    if (!isValidQr(decodedText)) {
+    notifBar.classList.add("error");
+    linkText.innerText = "Unsupported QR code.";
+    notifBar.classList.remove("hidden");
+    html5QrCode.pause();
+    return;
     }
+
 
     notifBar.classList.remove("error");
     html5QrCode.pause();
