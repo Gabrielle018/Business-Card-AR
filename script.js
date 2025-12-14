@@ -244,11 +244,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
  // --- BUTTON ACTIONS ---
     btnOpen.addEventListener('click', () => {
-        if (currentUrl.startsWith("http")) {
-            stopCamera();
-            window.location.href = currentUrl;
-        } else alert("Not a link: " + currentUrl);
-    });
+    if (!currentUrl) {
+        alert("No QR scanned yet.");
+        return;
+    }
+
+    stopCamera();
+
+    // If the URL looks like http/https, open directly
+    if (currentUrl.startsWith("http://") || currentUrl.startsWith("https://")) {
+        window.location.href = currentUrl;
+    } else {
+        // Otherwise try opening it anyway (some deep links like 8thwall://)
+        window.open(currentUrl, "_blank");
+    }
+});
+
 
 
 
