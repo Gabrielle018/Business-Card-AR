@@ -30,18 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
         school: "San Beda University"
     };
 
-    const qrContactsMap = {
-    "https://augmentedreality8.8thwall.app/network-business-card-2/": {
-        name: "Liu, Bernie",
-        role: "CEO"
-    },
-    "https://augmentedreality8.8thwall.app/network-business-card-1/": {
-        name: "Chan, Ben",
-        role: "Founder"
-    }
-};
-
-
    let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
     {
         name: "Lugada, Yuan Gabriel D.",
@@ -109,10 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadHome() {
     const list = document.getElementById('contacts-list');
-    list.innerHTML = ""; // Clear existing list
+    list.innerHTML = ""; 
 
-    // Always read from sessionStorage
-    let contacts = JSON.parse(sessionStorage.getItem("myContacts")) || [];
+    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
 
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
@@ -129,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
         list.innerHTML += html;
     });
 
-    // Add click handlers to each contact
+    // 👉 CLICK HANDLER
     document.querySelectorAll(".contact-card").forEach(card => {
         card.addEventListener("click", () => {
             const link = card.dataset.link;
@@ -139,10 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("No link available for this contact.");
             }
         });
+
+        // 👉 CURSOR STYLE (PUT IT HERE)
         card.style.cursor = "pointer";
     });
 }
-
 
 
 
@@ -162,8 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
  function addNewContact(name, role, link) {
-    const exists = myContacts.some(c => c.name === name);
-    myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [];
+    const exists = myContacts.some(c => c.name === name && c.role === role);
     if (!exists) {
         myContacts.unshift({
             name: name,
@@ -252,7 +239,8 @@ document.addEventListener("DOMContentLoaded", () => {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-
+   // ✅ ADD NEW CONTACT automatically after scanning
+    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-2/");
 
 
 
@@ -266,18 +254,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
  // --- BUTTON ACTIONS ---
     btnOpen.addEventListener('click', () => {
-    if (currentUrl.startsWith("http") && qrContactsMap[currentUrl]) {
-        const { name, role } = qrContactsMap[currentUrl];
-        addNewContact(name, role, currentUrl);
-    }
-
-    stopCamera();
-    window.location.href = currentUrl;
-});
-
-
-
-
+        if (currentUrl.startsWith("http")) {
+            stopCamera();
+            window.location.href = currentUrl;
+        } else alert("Not a link: " + currentUrl);
+    });
 
 
 
