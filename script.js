@@ -251,9 +251,11 @@ document.addEventListener("DOMContentLoaded", () => {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-   // ✅ ADD NEW CONTACT automatically after scanning
-    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
-
+  // ✅ Add new contact automatically after scanning, using qrContactsMap
+if (qrContactsMap[decodedText]) {
+    const { name, role } = qrContactsMap[decodedText];
+    addNewContact(name, role, decodedText);
+}
 
 
 }
