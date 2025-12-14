@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         role: "Founder"
     },
     "https://augmentedreality8.8thwall.app/network-business-card-1/": {
-        name: "Chan, Ben",
+        name: "Liu, Bernie",
         role: "Founder"
     }
 };
