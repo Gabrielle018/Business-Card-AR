@@ -1,12 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // --- STORAGE VERSIONING ---
-      const STORAGE_VERSION = "v2";
-    const savedVersion = sessionStorage.getItem("storageVersion");
-
-    if (savedVersion !== STORAGE_VERSION) {
-        sessionStorage.removeItem("myContacts");
-        sessionStorage.setItem("storageVersion", STORAGE_VERSION);
-    }
     
     // --- VARIABLES ---
     const scannerView = document.getElementById('scanner-view');
@@ -37,17 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
         phone: "+63 912 345 6789",
         school: "San Beda University"
     };
-
-        const qrContactsMap = {
-    "https://augmentedreality8.8thwall.app/network-business-card-1/": {
-        name: "Liu, Bernie",
-        role: "CEO"
-    },
-    "https://augmentedreality8.8thwall.app/network-business-card-chan/": {
-        name: "Chan, Ben",
-        role: "Founder"
-    }
-};
 
    let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
     {
@@ -258,11 +239,10 @@ document.addEventListener("DOMContentLoaded", () => {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-   // ✅ ADD ONLY IF NEW
-    if (qrContactsMap[decodedText]) {
-        const { name, role } = qrContactsMap[decodedText];
-        addNewContact(name, role, decodedText);
-    }
+   // ✅ ADD NEW CONTACT automatically after scanning
+    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
+
+
 
 }
 
