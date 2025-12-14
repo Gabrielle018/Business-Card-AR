@@ -255,6 +255,9 @@ document.addEventListener("DOMContentLoaded", () => {
  // --- BUTTON ACTIONS ---
     btnOpen.addEventListener('click', () => {
         if (currentUrl.startsWith("http")) {
+
+             addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-2/");
+
             stopCamera();
             window.location.href = currentUrl;
         } else alert("Not a link: " + currentUrl);
