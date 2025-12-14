@@ -98,9 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadHome() {
     const list = document.getElementById('contacts-list');
     list.innerHTML = ""; 
-
-    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
-
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
 
