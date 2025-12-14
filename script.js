@@ -238,6 +238,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
    // ✅ ADD NEW CONTACT automatically after scanning
     addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-2/");
+    addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-1/");
+    addNewContact("Guofu, Ye", "Co-Founder", "https://augmentedreality8.8thwall.app/network-business-card-3/");
 
 
 
