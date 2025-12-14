@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 };
 
 
-   let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
+   let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts[
     {
         name: "Lugada, Yuan Gabriel D.",
         role: "Developer",
@@ -111,8 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const list = document.getElementById('contacts-list');
     list.innerHTML = ""; // Clear existing list
 
-    // Load contacts from sessionStorage (fallback to initial myContacts if empty)
-    let contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
+    // Always read from sessionStorage
+    let contacts = JSON.parse(sessionStorage.getItem("myContacts")) || [];
 
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
  function addNewContact(name, role, link) {
     const exists = myContacts.some(c => c.name === name);
+    myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [];
     if (!exists) {
         myContacts.unshift({
             name: name,
