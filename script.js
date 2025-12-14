@@ -265,23 +265,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
  // --- BUTTON ACTIONS ---
     btnOpen.addEventListener('click', () => {
-    if (currentUrl.startsWith("http")) {
-        // Add contact if mapped
-        if (qrContactsMap[currentUrl]) {
-            const { name, role } = qrContactsMap[currentUrl];
-            addNewContact(name, role, currentUrl); // Update sessionStorage and reload home
-        }
-
-        stopCamera();
-
-        // Delay navigation slightly to allow sessionStorage to save
-        setTimeout(() => {
-            window.location.href = currentUrl;
-        }, 50); // 100ms is enough
-    } else {
-        alert("Not a link: " + currentUrl);
+    if (currentUrl.startsWith("http") && qrContactsMap[currentUrl]) {
+        const { name, role } = qrContactsMap[currentUrl];
+        addNewContact(name, role, currentUrl);
     }
+
+    stopCamera();
+    window.location.href = currentUrl;
 });
+
 
 
 
