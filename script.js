@@ -205,54 +205,34 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-   function isValidQr(text) {
-    const cleaned = text.trim();
-
-    // URL
-    if (cleaned.startsWith("http://") || cleaned.startsWith("https://")) {
-        return true;
-    }
-
-    // vCard
-    if (cleaned.startsWith("BEGIN:VCARD")) {
-        return true;
-    }
-
-    return false;
-
-}
+   
 
 
 
    function onScanSuccess(decodedText) {
     log("QR FOUND: " + decodedText);
 
-    const cleanedText = decodedText.trim(); // ✅ ADD THIS
+    const cleanedText = decodedText
+        .replace(/[\u200B-\u200D\uFEFF]/g, "")
+        .trim();
 
-    if (!isValidQr(decodedText)) {
-    notifBar.classList.add("error");
-    linkText.innerText = "Unsupported QR code.";
-    notifBar.classList.remove("hidden");
-    html5QrCode.pause();
-    return;
+    // 🚀 ACCEPT EVERYTHING THAT LOOKS LIKE A LINK
+    if (!cleanedText.startsWith("http")) {
+        notifBar.classList.add("error");
+        linkText.innerText = "Unsupported QR.";
+        notifBar.classList.remove("hidden");
+        html5QrCode.pause();
+        return;
     }
-
 
     notifBar.classList.remove("error");
     html5QrCode.pause();
 
-    currentUrl = cleanedText;      // ✅ USE CLEANED
-    linkText.innerText = cleanedText;
+    currentUrl = cleanedText;
+    linkText.innerText = "QR detected. Tap OPEN to continue.";
     notifBar.classList.remove("hidden");
-
-    // ⚠️ This is fine even if parseContactFromUrl doesn't exist
-    if (typeof parseContactFromUrl === "function") {
-        const contact = parseContactFromUrl(cleanedText);
-        if (contact) {
-            addNewContact(contact.name, contact.role, cleanedText);
-        }
-    }
 }
+
 
 
 
