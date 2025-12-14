@@ -166,8 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Update myContacts variable for in-memory use
-     // Save updated contacts
-    sessionStorage.setItem("myContacts", JSON.stringify(contacts));
+    
     myContacts = contacts;
     // Always reload Home UI
     loadHome();
@@ -247,12 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-   addNewContact([
-    { name: "Liu, Bernie", role: "CEO", link: "https://augmentedreality8.8thwall.app/network-business-card-1/" },
-    { name: "Chan, Ben", role: "Founder", link: "https://augmentedreality8.8thwall.app/network-business-card-2/" },
-    { name: "Guofu, Ye", role: "Co-Founder", link: "https://augmentedreality8.8thwall.app/network-business-card-3/" }
-]);
-
+  
 
 
 
@@ -267,14 +261,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
  // --- BUTTON ACTIONS ---
     btnOpen.addEventListener('click', () => {
-        if (currentUrl.startsWith("http")) {
+    if (currentUrl.startsWith("http")) {
+        addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
+        addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-2/");
 
-           
-
-            stopCamera();
-            window.location.href = currentUrl;
-        } else alert("Not a link: " + currentUrl);
-    });
+        stopCamera();
+        window.location.href = currentUrl;
+    } else alert("Not a link: " + currentUrl);
+});
 
 
 
