@@ -94,12 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
             loadProfile(); 
         }
     }
-function loadHome() {
+
+    function loadHome() {
     const list = document.getElementById('contacts-list');
     list.innerHTML = ""; 
 
-    // Always read from sessionStorage
-    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || [];
+    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
 
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
@@ -116,16 +116,21 @@ function loadHome() {
         list.innerHTML += html;
     });
 
+    // 👉 CLICK HANDLER
     document.querySelectorAll(".contact-card").forEach(card => {
         card.addEventListener("click", () => {
             const link = card.dataset.link;
-            if (link) window.location.href = link;
-            else alert("No link available for this contact.");
+            if (link) {
+                window.location.href = link;
+            } else {
+                alert("No link available for this contact.");
+            }
         });
+
+        // 👉 CURSOR STYLE (PUT IT HERE)
         card.style.cursor = "pointer";
     });
 }
-
 
 
 
@@ -235,9 +240,7 @@ function loadHome() {
     notifBar.classList.remove('hidden');
 
    // ✅ ADD NEW CONTACT automatically after scanning
-    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-2/");
-    addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-1/");
-    addNewContact("Guofu, Ye", "Co-Founder", "https://augmentedreality8.8thwall.app/network-business-card-3/");
+    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
 
 
 
