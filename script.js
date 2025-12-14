@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const qrContactsMap = {
     "https://augmentedreality8.8thwall.app/network-business-card-1/": {
-        name: "Liu, Bernie",
-        role: "CEO"
+        name: "Chan, Ben",
+        role: "Founder"
     },
     "https://augmentedreality8.8thwall.app/network-business-card-1/": {
         name: "Chan, Ben",
