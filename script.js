@@ -145,8 +145,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Generate QR
         const qrData = `BEGIN:VCARD%0AVERSION:3.0%0AN:${myProfileData.name}%0ATEL:${myProfileData.phone}%0AEMAIL:${myProfileData.email}%0AEND:VCARD`;
-        document.getElementById('qrcode-display').innerHTML = 
-            `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" style="width:100%; height:100%;" />`;
+       document.getElementById('qrcode-display').innerHTML = `
+    <img src="qr.png" alt="My QR Code" style="width:100%; height:100%; object-fit:contain;">
+`;
     }
 
  function addNewContact(name, role, link) {
