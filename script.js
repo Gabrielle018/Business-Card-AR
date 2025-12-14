@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // --- STORAGE VERSIONING ---
+      const STORAGE_VERSION = "v2";
+    const savedVersion = sessionStorage.getItem("storageVersion");
+
+    if (savedVersion !== STORAGE_VERSION) {
+        sessionStorage.removeItem("myContacts");
+        sessionStorage.setItem("storageVersion", STORAGE_VERSION);
+    }
     
     // --- VARIABLES ---
     const scannerView = document.getElementById('scanner-view');
