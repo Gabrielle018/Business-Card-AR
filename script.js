@@ -146,7 +146,15 @@ document.addEventListener("DOMContentLoaded", () => {
         // Generate QR
         const qrData = `BEGIN:VCARD%0AVERSION:3.0%0AN:${myProfileData.name}%0ATEL:${myProfileData.phone}%0AEMAIL:${myProfileData.email}%0AEND:VCARD`;
        document.getElementById('qrcode-display').innerHTML = `
-    <img src="qr.png" alt="My QR Code" style="width:100%; height:100%; object-fit:contain;">
+    <a href="https://augmentedreality8.8thwall.app/final-user-final/" 
+       target="_blank"
+       style="display:inline-block;">
+        <img 
+            src="qr.png"
+            alt="My QR Code"
+            style="width:100%; height:100%; object-fit:contain;"
+        />
+    </a>
 `;
     }
 
