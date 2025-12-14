@@ -97,15 +97,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadHome() {
     const list = document.getElementById('contacts-list');
-    list.innerHTML = ""; 
+    list.innerHTML = "";
 
-    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
+    const contacts = JSON.parse(localStorage.getItem("myContacts")) || [];
 
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
 
         const html = `
-            <div class="contact-card" data-link="${c.link || ''}">
+            <div class="contact-card" data-link="${c.link}">
                 <div class="card-avatar">${initials}</div>
                 <div class="card-info">
                     <h3>${c.name}</h3>
@@ -116,21 +116,15 @@ document.addEventListener("DOMContentLoaded", () => {
         list.innerHTML += html;
     });
 
-    // 👉 CLICK HANDLER
+    // Attach click handlers
     document.querySelectorAll(".contact-card").forEach(card => {
         card.addEventListener("click", () => {
-            const link = card.dataset.link;
-            if (link) {
-                window.location.href = link;
-            } else {
-                alert("No link available for this contact.");
-            }
+            window.location.href = card.dataset.link;
         });
-
-        // 👉 CURSOR STYLE (PUT IT HERE)
         card.style.cursor = "pointer";
     });
 }
+
 
 
 
@@ -150,20 +144,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
  function addNewContact(name, role, link) {
-    const exists = myContacts.some(c => c.name === name && c.role === role);
+    const contacts = JSON.parse(localStorage.getItem("myContacts")) || [];
+
+    const exists = contacts.some(c => c.link === link);
     if (!exists) {
-        myContacts.unshift({
-            name: name,
-            role: role,
-            date: "Yesterday",
-            link: link
+        contacts.unshift({
+            name,
+            role,
+            date: "Today",
+            link
         });
-        sessionStorage.setItem("myContacts", JSON.stringify(myContacts));
+
+        localStorage.setItem("myContacts", JSON.stringify(contacts));
     }
 
-    // Always reload Home UI
     loadHome();
 }
+
 
 
 
