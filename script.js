@@ -30,6 +30,18 @@ document.addEventListener("DOMContentLoaded", () => {
         school: "San Beda University"
     };
 
+    const qrContactsMap = {
+    "https://augmentedreality8.8thwall.app/network-business-card-1/": {
+        name: "Liu, Bernie",
+        role: "CEO"
+    },
+    "https://augmentedreality8.8thwall.app/network-business-card-2/": {
+        name: "Chan, Ben",
+        role: "Founder"
+    }
+};
+
+
    let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
     {
         name: "Lugada, Yuan Gabriel D.",
@@ -97,9 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadHome() {
     const list = document.getElementById('contacts-list');
-    list.innerHTML = ""; 
+    list.innerHTML = ""; // Clear existing list
 
-    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
+    // Load contacts from sessionStorage (fallback to initial myContacts if empty)
+    let contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
 
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
@@ -116,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         list.innerHTML += html;
     });
 
-    // 👉 CLICK HANDLER
+    // Add click handlers to each contact
     document.querySelectorAll(".contact-card").forEach(card => {
         card.addEventListener("click", () => {
             const link = card.dataset.link;
@@ -126,11 +139,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("No link available for this contact.");
             }
         });
-
-        // 👉 CURSOR STYLE (PUT IT HERE)
         card.style.cursor = "pointer";
     });
 }
+
 
 
 
@@ -254,11 +266,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
  // --- BUTTON ACTIONS ---
     btnOpen.addEventListener('click', () => {
-        if (currentUrl.startsWith("http")) {
-            stopCamera();
-            window.location.href = currentUrl;
-        } else alert("Not a link: " + currentUrl);
-    });
+    if (currentUrl.startsWith("http")) {
+        // Add contact if mapped
+        if (qrContactsMap[currentUrl]) {
+            const { name, role } = qrContactsMap[currentUrl];
+            addNewContact(name, role, currentUrl);
+        }
+
+        stopCamera();
+        window.location.href = currentUrl;
+    } else {
+        alert("Not a link: " + currentUrl);
+    }
+});
+
 
 
 
