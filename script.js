@@ -262,8 +262,9 @@ document.addEventListener("DOMContentLoaded", () => {
  // --- BUTTON ACTIONS ---
     btnOpen.addEventListener('click', () => {
     if (currentUrl.startsWith("http")) {
-        addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
-        addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-2/");
+        addNewContact("Liu, Bernie", "Co-Founder", "https://augmentedreality8.8thwall.app/network-business-card-2/");
+        addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-1/");
+          addNewContact("Guofu, Ye", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-3/");
 
         stopCamera();
         window.location.href = currentUrl;
