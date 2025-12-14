@@ -247,21 +247,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
  // --- BUTTON ACTIONS ---
    btnOpen.addEventListener('click', () => {
-    if (!currentUrl) {
-        alert("No QR scanned yet.");
-        return;
-    }
-
-    stopCamera();
-
-    // If it looks like a URL, open in a new tab
-    if (/^https?:\/\//i.test(currentUrl)) {
-        window.open(currentUrl, "_blank");
+    if (currentUrl) {
+        stopCamera();
+        window.open(currentUrl, "_blank"); // opens WebAR in a new tab
     } else {
-        // Otherwise, just show it to the user
-        alert("Scanned QR content:\n\n" + currentUrl);
+        alert("No QR scanned yet.");
     }
 });
+
 
 
 
