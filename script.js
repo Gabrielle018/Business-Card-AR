@@ -212,11 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
    function onScanSuccess(decodedText) {
     log("QR FOUND RAW: " + decodedText);
 
-    const cleanedText = decodedText
-        .replace(/[\u200B-\u200D\uFEFF]/g, "")
-        .trim();
+    const cleanedText = decodedText.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
 
-    // ❌ Only reject EMPTY scans
     if (!cleanedText) {
         notifBar.classList.add("error");
         linkText.innerText = "Invalid QR.";
@@ -230,15 +227,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     currentUrl = cleanedText;
 
-    // 👇 UX message depends on QR type
-    if (cleanedText.startsWith("http")) {
-        linkText.innerText = "Link detected. Tap OPEN to continue.";
-    } else {
-        linkText.innerText = "QR detected. Follow on-screen instructions.";
-    }
-
+    linkText.innerText = "QR detected. Tap OPEN to continue.";
     notifBar.classList.remove("hidden");
 }
+
 
 
 
