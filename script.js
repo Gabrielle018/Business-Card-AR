@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         school: "San Beda University"
     };
 
-   let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
+   let myContacts = JSON.parse(localStorage.getItem("myContacts")) || [
     {
         name: "Lugada, Yuan Gabriel D.",
         role: "Developer",
@@ -207,18 +207,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function isValidQrLink(text) {
     try {
-        const url = new URL(text);
-        return url.protocol === "https:";
-    } catch {
+        const cleaned = text.trim(); // ✅ VERY IMPORTANT
+        const url = new URL(cleaned);
+        return url.protocol === "https:" || url.protocol === "http:";
+    } catch (e) {
+        console.error("Invalid URL:", text);
         return false;
     }
 }
 
 
-    function onScanSuccess(decodedText) {
+
+   function onScanSuccess(decodedText) {
     log("QR FOUND: " + decodedText);
 
-    if (!isValidQrLink(decodedText)) {
+    const cleanedText = decodedText.trim(); // ✅ ADD THIS
+
+    if (!isValidQrLink(cleanedText)) {
         notifBar.classList.add("error");
         linkText.innerText = "Invalid QR code.";
         notifBar.classList.remove("hidden");
@@ -226,20 +231,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // ✅ ALLOW LANDING PAGES / GALLERIES
     notifBar.classList.remove("error");
     html5QrCode.pause();
 
-    currentUrl = decodedText;
-    linkText.innerText = decodedText;
+    currentUrl = cleanedText;      // ✅ USE CLEANED
+    linkText.innerText = cleanedText;
     notifBar.classList.remove("hidden");
 
-    // OPTIONAL: Save as contact if recognized
-    const contact = parseContactFromUrl(decodedText);
-    if (contact) {
-        addNewContact(contact.name, contact.role, decodedText);
+    // ⚠️ This is fine even if parseContactFromUrl doesn't exist
+    if (typeof parseContactFromUrl === "function") {
+        const contact = parseContactFromUrl(cleanedText);
+        if (contact) {
+            addNewContact(contact.name, contact.role, cleanedText);
+        }
     }
 }
+
 
 
 
