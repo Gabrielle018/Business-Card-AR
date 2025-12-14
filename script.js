@@ -31,11 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const qrContactsMap = {
-    "https://augmentedreality8.8thwall.app/network-business-card-1/": {
+    "https://augmentedreality8.8thwall.app/network-business-card-2/": {
         name: "Liu, Bernie",
         role: "CEO"
     },
-    "https://augmentedreality8.8thwall.app/network-business-card-2/": {
+    "https://augmentedreality8.8thwall.app/network-business-card-1/": {
         name: "Chan, Ben",
         role: "Founder"
     }
@@ -251,11 +251,8 @@ document.addEventListener("DOMContentLoaded", () => {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-  // ✅ Add new contact automatically after scanning, using qrContactsMap
-if (qrContactsMap[decodedText]) {
-    const { name, role } = qrContactsMap[decodedText];
-    addNewContact(name, role, decodedText);
-}
+
+
 
 
 }
