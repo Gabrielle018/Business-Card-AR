@@ -205,43 +205,42 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    
+    function isValidQrLink(text) {
+    try {
+        const url = new URL(text);
+        return url.protocol === "https:";
+    } catch {
+        return false;
+    }
+}
+
 
     function onScanSuccess(decodedText) {
     log("QR FOUND: " + decodedText);
 
-    // --- RESTRICT TO 8TH WALL ONLY ---
-    const is8thWall = (
-        decodedText.startsWith("https://") &&
-        (decodedText.includes("8thwall.com") || decodedText.includes("8thwall.app"))
-    );
+    if (!isValidQrLink(decodedText)) {
+        notifBar.classList.add("error");
+        linkText.innerText = "Invalid QR code.";
+        notifBar.classList.remove("hidden");
+        html5QrCode.pause();
+        return;
+    }
 
-    if (!is8thWall) {
-    log("❌ Not an 8th Wall QR");
-
-    notifBar.classList.add("error");   // ADD THIS
-    linkText.innerText = "Invalid QR: Only 8th Wall links are allowed.";
-
-    notifBar.classList.remove('hidden');
-    html5QrCode.pause();
-    return;
-}
-
-
-    // --- IF VALID 8THWALL QR ---
+    // ✅ ALLOW LANDING PAGES / GALLERIES
     notifBar.classList.remove("error");
     html5QrCode.pause();
 
     currentUrl = decodedText;
     linkText.innerText = decodedText;
-    notifBar.classList.remove('hidden');
+    notifBar.classList.remove("hidden");
 
-   // ✅ ADD NEW CONTACT automatically after scanning
-    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
-
-
-
+    // OPTIONAL: Save as contact if recognized
+    const contact = parseContactFromUrl(decodedText);
+    if (contact) {
+        addNewContact(contact.name, contact.role, decodedText);
+    }
 }
+
 
 
     function onScanFailure(error) {
