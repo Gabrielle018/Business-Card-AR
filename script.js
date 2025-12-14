@@ -35,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
         name: "Chan, Ben",
         role: "Founder"
     },
-    "https://augmentedreality8.8thwall.app/network-business-card-1/": {
+    "https://augmentedreality8.8thwall.app/network-business-card-chan/": {
         name: "Liu, Bernie",
-        role: "Founder"
+        role: "CEO"
     }
 };
 
@@ -250,7 +250,11 @@ document.addEventListener("DOMContentLoaded", () => {
     linkText.innerText = decodedText;
     notifBar.classList.remove('hidden');
 
-   
+   // ✅ ADD ONLY IF NEW
+    if (qrContactsMap[decodedText]) {
+        const { name, role } = qrContactsMap[decodedText];
+        addNewContact(name, role, decodedText);
+    }
 
 }
 
@@ -261,25 +265,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if(scanCount % 50 === 0) log("Scanning... " + scanCount);
     }
  // --- BUTTON ACTIONS ---
-   btnOpen.addEventListener('click', () => {
-    if (!currentUrl.startsWith("http")) {
-        alert("Not a valid link");
-        return;
-    }
-
-    // ✅ ADD CONTACT ON OPEN
-    const matchedKey = Object.keys(qrContactsMap)
-        .find(key => currentUrl.startsWith(key));
-
-    if (matchedKey) {
-        const { name, role } = qrContactsMap[matchedKey];
-        addNewContact(name, role, currentUrl);
-    }
-
-    stopCamera();
-    window.location.href = currentUrl;
-});
-
+    btnOpen.addEventListener('click', () => {
+        if (currentUrl.startsWith("http")) {
+            stopCamera();
+            window.location.href = currentUrl;
+        } else alert("Not a link: " + currentUrl);
+    });
 
 
 
