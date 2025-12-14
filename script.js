@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentUrl.startsWith("http")) {
         addNewContact("Liu, Bernie", "Co-Founder", "https://augmentedreality8.8thwall.app/network-business-card-2/");
         addNewContact("Chan, Ben", "Founder", "https://augmentedreality8.8thwall.app/network-business-card-1/");
-          addNewContact("Guofu, Ye", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-3/");
+          addNewContact("Jack, Ye", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-3/");
 
         stopCamera();
         window.location.href = currentUrl;
