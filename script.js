@@ -30,11 +30,27 @@ document.addEventListener("DOMContentLoaded", () => {
         school: "San Beda University"
     };
 
-    let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
-    { name: "Lugada, Yuan Gabriel D.", role: "Developer", date: "Now" },
-    { name: "Abania, Jomuel C.", role: "Developer", date: "Today" },
-    { name: "Moneva, Gabrielle B.", role: "Developer", date: "Today" }
+   let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
+    {
+        name: "Lugada, Yuan Gabriel D.",
+        role: "Developer",
+        date: "Now",
+        link: "https://augmentedreality8.8thwall.app/network-2/"
+    },
+    {
+        name: "Abania, Jomuel C.",
+        role: "Developer",
+        date: "Today",
+        link: "https://augmentedreality8.8thwall.app/final-network-2/"
+    },
+    {
+        name: "Moneva, Gabrielle B.",
+        role: "Developer",
+        date: "Today",
+        link: "https://augmentedreality8.8thwall.app/final-network-3/"
+    }
 ];
+
 
 
     // --- DEBUG ---
@@ -87,14 +103,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
+
         const html = `
-            <div class="contact-card">
+            <div class="contact-card" data-link="${c.link || ''}">
                 <div class="card-avatar">${initials}</div>
-                <div class="card-info"><h3>${c.name}</h3><p>${c.role} • ${c.date}</p></div>
-            </div>`;
+                <div class="card-info">
+                    <h3>${c.name}</h3>
+                    <p>${c.role} • ${c.date}</p>
+                </div>
+            </div>
+        `;
         list.innerHTML += html;
     });
+
+    // 👉 CLICK HANDLER
+    document.querySelectorAll(".contact-card").forEach(card => {
+        card.addEventListener("click", () => {
+            const link = card.dataset.link;
+            if (link) {
+                window.location.href = link;
+            } else {
+                alert("No link available for this contact.");
+            }
+        });
+
+        // 👉 CURSOR STYLE (PUT IT HERE)
+        card.style.cursor = "pointer";
+    });
 }
+
 
 
     
