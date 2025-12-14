@@ -149,13 +149,14 @@ document.addEventListener("DOMContentLoaded", () => {
             `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}" style="width:100%; height:100%;" />`;
     }
 
- function addNewContact(name, role) {
+ function addNewContact(name, role, link) {
     const exists = myContacts.some(c => c.name === name && c.role === role);
     if (!exists) {
         myContacts.unshift({
             name: name,
             role: role,
-            date: "Yesterday"
+            date: "Yesterday",
+            link: link
         });
         sessionStorage.setItem("myContacts", JSON.stringify(myContacts));
     }
@@ -239,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
     notifBar.classList.remove('hidden');
 
    // ✅ ADD NEW CONTACT automatically after scanning
-    addNewContact("Liu, Bernie", "CEO");
+    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
 
 
 
