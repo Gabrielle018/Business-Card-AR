@@ -269,15 +269,20 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add contact if mapped
         if (qrContactsMap[currentUrl]) {
             const { name, role } = qrContactsMap[currentUrl];
-            addNewContact(name, role, currentUrl);
+            addNewContact(name, role, currentUrl); // Update sessionStorage and reload home
         }
 
         stopCamera();
-        window.location.href = currentUrl;
+
+        // Delay navigation slightly to allow sessionStorage to save
+        setTimeout(() => {
+            window.location.href = currentUrl;
+        }, 100); // 100ms is enough
     } else {
         alert("Not a link: " + currentUrl);
     }
 });
+
 
 
 
