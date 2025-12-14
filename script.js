@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 };
 
 
-   let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts[
+   let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
     {
         name: "Lugada, Yuan Gabriel D.",
         role: "Developer",
@@ -274,6 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
     stopCamera();
     window.location.href = currentUrl;
 });
+
 
 
 
