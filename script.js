@@ -210,16 +210,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
    function onScanSuccess(decodedText) {
-    log("QR FOUND: " + decodedText);
+    log("QR FOUND RAW: " + decodedText);
 
     const cleanedText = decodedText
         .replace(/[\u200B-\u200D\uFEFF]/g, "")
         .trim();
 
-    // 🚀 ACCEPT EVERYTHING THAT LOOKS LIKE A LINK
-    if (!cleanedText.startsWith("http")) {
+    // ❌ Only reject EMPTY scans
+    if (!cleanedText) {
         notifBar.classList.add("error");
-        linkText.innerText = "Unsupported QR.";
+        linkText.innerText = "Invalid QR.";
         notifBar.classList.remove("hidden");
         html5QrCode.pause();
         return;
@@ -229,9 +229,17 @@ document.addEventListener("DOMContentLoaded", () => {
     html5QrCode.pause();
 
     currentUrl = cleanedText;
-    linkText.innerText = "QR detected. Tap OPEN to continue.";
+
+    // 👇 UX message depends on QR type
+    if (cleanedText.startsWith("http")) {
+        linkText.innerText = "Link detected. Tap OPEN to continue.";
+    } else {
+        linkText.innerText = "QR detected. Follow on-screen instructions.";
+    }
+
     notifBar.classList.remove("hidden");
 }
+
 
 
 
