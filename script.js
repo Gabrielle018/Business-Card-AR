@@ -94,10 +94,13 @@ document.addEventListener("DOMContentLoaded", () => {
             loadProfile(); 
         }
     }
-
-    function loadHome() {
+function loadHome() {
     const list = document.getElementById('contacts-list');
     list.innerHTML = ""; 
+
+    // Always read from sessionStorage
+    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || [];
+
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
 
@@ -113,21 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
         list.innerHTML += html;
     });
 
-    // 👉 CLICK HANDLER
     document.querySelectorAll(".contact-card").forEach(card => {
         card.addEventListener("click", () => {
             const link = card.dataset.link;
-            if (link) {
-                window.location.href = link;
-            } else {
-                alert("No link available for this contact.");
-            }
+            if (link) window.location.href = link;
+            else alert("No link available for this contact.");
         });
-
-        // 👉 CURSOR STYLE (PUT IT HERE)
         card.style.cursor = "pointer";
     });
 }
+
 
 
 
