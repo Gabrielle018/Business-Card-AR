@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
  function addNewContact(name, role, link) {
-    const exists = myContacts.some(c => c.name === name && c.role === role);
+    const exists = myContacts.some(c => c.name === name);
     if (!exists) {
         myContacts.unshift({
             name: name,
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Delay navigation slightly to allow sessionStorage to save
         setTimeout(() => {
             window.location.href = currentUrl;
-        }, 100); // 100ms is enough
+        }, 50); // 100ms is enough
     } else {
         alert("Not a link: " + currentUrl);
     }
