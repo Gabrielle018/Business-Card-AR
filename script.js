@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         school: "San Beda University"
     };
 
-   let myContacts = JSON.parse(localStorage.getItem("myContacts")) || [
+   let myContacts = JSON.parse(sessionStorage.getItem("myContacts")) || [
     {
         name: "Lugada, Yuan Gabriel D.",
         role: "Developer",
@@ -97,15 +97,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadHome() {
     const list = document.getElementById('contacts-list');
-    list.innerHTML = "";
+    list.innerHTML = ""; 
 
-    const contacts = JSON.parse(localStorage.getItem("myContacts")) || [];
+    const contacts = JSON.parse(sessionStorage.getItem("myContacts")) || myContacts;
 
     contacts.forEach(c => {
         const initials = c.name.slice(0, 2).toUpperCase();
 
         const html = `
-            <div class="contact-card" data-link="${c.link}">
+            <div class="contact-card" data-link="${c.link || ''}">
                 <div class="card-avatar">${initials}</div>
                 <div class="card-info">
                     <h3>${c.name}</h3>
@@ -116,15 +116,21 @@ document.addEventListener("DOMContentLoaded", () => {
         list.innerHTML += html;
     });
 
-    // Attach click handlers
+    // 👉 CLICK HANDLER
     document.querySelectorAll(".contact-card").forEach(card => {
         card.addEventListener("click", () => {
-            window.location.href = card.dataset.link;
+            const link = card.dataset.link;
+            if (link) {
+                window.location.href = link;
+            } else {
+                alert("No link available for this contact.");
+            }
         });
+
+        // 👉 CURSOR STYLE (PUT IT HERE)
         card.style.cursor = "pointer";
     });
 }
-
 
 
 
@@ -144,23 +150,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
  function addNewContact(name, role, link) {
-    const contacts = JSON.parse(localStorage.getItem("myContacts")) || [];
-
-    const exists = contacts.some(c => c.link === link);
+    const exists = myContacts.some(c => c.name === name && c.role === role);
     if (!exists) {
-        contacts.unshift({
-            name,
-            role,
-            date: "Today",
-            link
+        myContacts.unshift({
+            name: name,
+            role: role,
+            date: "Yesterday",
+            link: link
         });
-
-        localStorage.setItem("myContacts", JSON.stringify(contacts));
+        sessionStorage.setItem("myContacts", JSON.stringify(myContacts));
     }
 
+    // Always reload Home UI
     loadHome();
 }
-
 
 
 
@@ -205,36 +208,43 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-   
+    
 
+    function onScanSuccess(decodedText) {
+    log("QR FOUND: " + decodedText);
 
+    // --- RESTRICT TO 8TH WALL ONLY ---
+    const is8thWall = (
+        decodedText.startsWith("https://") &&
+        (decodedText.includes("8thwall.com") || decodedText.includes("8thwall.app"))
+    );
 
-   function onScanSuccess(decodedText) {
-    log("QR FOUND RAW: " + decodedText);
+    if (!is8thWall) {
+    log("❌ Not an 8th Wall QR");
 
-    const cleanedText = decodedText.replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+    notifBar.classList.add("error");   // ADD THIS
+    linkText.innerText = "Invalid QR: Only 8th Wall links are allowed.";
 
-    if (!cleanedText) {
-        notifBar.classList.add("error");
-        linkText.innerText = "Invalid QR.";
-        notifBar.classList.remove("hidden");
-        html5QrCode.pause();
-        return;
-    }
-
-    notifBar.classList.remove("error");
+    notifBar.classList.remove('hidden');
     html5QrCode.pause();
-
-    currentUrl = cleanedText;
-
-    linkText.innerText = "QR detected. Tap OPEN to continue.";
-    notifBar.classList.remove("hidden");
+    return;
 }
 
 
+    // --- IF VALID 8THWALL QR ---
+    notifBar.classList.remove("error");
+    html5QrCode.pause();
+
+    currentUrl = decodedText;
+    linkText.innerText = decodedText;
+    notifBar.classList.remove('hidden');
+
+   // ✅ ADD NEW CONTACT automatically after scanning
+    addNewContact("Liu, Bernie", "CEO", "https://augmentedreality8.8thwall.app/network-business-card-1/");
 
 
 
+}
 
 
     function onScanFailure(error) {
@@ -243,30 +253,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if(scanCount % 50 === 0) log("Scanning... " + scanCount);
     }
  // --- BUTTON ACTIONS ---
-   btnOpen.addEventListener('click', () => {
-    if (!currentUrl) {
-        alert("No QR scanned yet.");
-        return;
-    }
-
-    stopCamera();
-
-    // If the scanned QR is a known 8th Wall card, redirect to the final URL
-    if (currentUrl.includes("ar-businesscard-2")) {
-        window.location.href = "https://augmentedreality8.8thwall.app/ar-businesscard-2/";
-        return;
-    }
-
-    // Otherwise, try normal redirect
-    if (currentUrl.startsWith("http://") || currentUrl.startsWith("https://")) {
-        window.location.href = currentUrl;
-    } else {
-        // fallback: open in new tab
-        window.open(currentUrl, "_blank");
-    }
-});
-
-
+    btnOpen.addEventListener('click', () => {
+        if (currentUrl.startsWith("http")) {
+            stopCamera();
+            window.location.href = currentUrl;
+        } else alert("Not a link: " + currentUrl);
+    });
 
 
 
